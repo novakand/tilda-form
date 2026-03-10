@@ -329,6 +329,7 @@
                             label="Next"
                             icon="pi pi-arrow-right"
                             iconPos="right"
+                            [disabled]="getTvForm(i).invalid"
                             (onClick)="activateCallback(i + 3)"
                         />
 

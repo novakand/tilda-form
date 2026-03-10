@@ -208,9 +208,9 @@ export class Form {
 
       this.tvArray.push(
         this.fb.group({
-          size: [null],
-          mount: [null],
-          wires: [null],
+          size: [null, Validators.required],
+          mount: [null, Validators.required],
+          wires: [null, Validators.required],
           services: this.fb.control([])
         })
       );
