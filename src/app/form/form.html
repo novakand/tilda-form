@@ -1,16 +1,36 @@
-<div class="w-full flex justify-center px-6 py-10">
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="w-full flex justify-center px-6 py-10"
+>
     <p-stepper
-        [value]="1"
+        [(value)]="activeStep"
         class="w-full max-w-[1100px]"
         [linear]="true"
     >
 
         <!-- MAIN STEPS -->
         <p-step-list>
-            <p-step [value]="1">How many TVs?</p-step>
-            <p-step [value]="2">TV Setup</p-step>
-            <p-step [value]="3">Summary</p-step>
-            <p-step [value]="4">Contact Details</p-step>
+
+            <p-step [value]="1">
+                How many TVs?
+            </p-step>
+
+            <p-step
+                *ngFor="let tv of tvArray.controls; let i = index"
+                [value]="i + 2"
+            >
+                TV {{ i + 1 }}
+            </p-step>
+
+            <p-step [value]="summaryStep">
+                Summary
+            </p-step>
+
+            <p-step [value]="contactStep">
+                Contact
+            </p-step>
+
         </p-step-list>
 
         <p-step-panels>
@@ -41,7 +61,7 @@
                                     [inputId]="category.key"
                                     name="category"
                                     [value]="category"
-                                    [(ngModel)]="selectedCategory"
+                                    formControlName="category"
                                 >
                                 </p-radiobutton>
 
@@ -72,7 +92,7 @@
                             label="Next"
                             icon="pi pi-arrow-right"
                             iconPos="right"
-                            [disabled]="!selectedCategory"
+                            [disabled]="form.get('category')?.invalid"
                             (onClick)="activateCallback(2)"
                         >
                         </p-button>
@@ -82,214 +102,217 @@
                 </ng-template>
             </p-step-panel>
 
-            <!-- STEP 2 -->
-            <p-step-panel [value]="2">
+            <p-step-panel
+                *ngFor="let tv of tvArray.controls; let i = index"
+                [value]="i + 2"
+            >
                 <ng-template
                     #content
                     let-activateCallback="activateCallback"
                 >
 
                     <h2 class="text-4xl font-bold mb-8">
-                        TV Setup
+                        TV {{ i + 1 }} Setup
                     </h2>
 
-                    <div class="w-full">
+                    <div
+                        [formGroup]="getTvForm(i)"
+                        class="p-8 border rounded-lg bg-gray-50 w-full"
+                    >
 
-                        <div class="card">
+                        <div class="flex flex-col gap-8">
 
-                            <p-stepper
-                                orientation="vertical"
-                                [value]="1"
-                            >
+                            <!-- TV SIZE -->
+                            <div>
 
-                                <p-step-item
-                                    *ngFor="let tv of tvs; let i = index"
-                                    [value]="i + 1"
-                                >
+                                <h4 class="font-semibold mb-4">
+                                    TV Size
+                                </h4>
 
-                                    <p-step>
-                                        TV {{ i + 1 }}
-                                    </p-step>
+                                <div class="flex flex-col gap-3">
 
-                                    <p-step-panel>
+                                    <div
+                                        *ngFor="let size of tvSizes"
+                                        (click)="tv.patchValue({ size })"
+                                        class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
+                                        [ngClass]="tv.value.size === size
+                                ? 'bg-orange-100 border border-orange-400'
+                                : 'bg-gray-100 hover:bg-gray-200'"
+                                    >
 
-                                        <ng-template #content>
+                                        <p-radiobutton
+                                            [value]="size"
+                                            name="size{{i}}"
+                                            formControlName="size"
+                                        />
 
-                                            <div class="p-8 border rounded-lg bg-gray-50 w-full">
+                                        <label class="flex-1 cursor-pointer">
+                                            {{ size.label }}
+                                        </label>
 
-                                                <h3 class="text-xl font-semibold mb-6">
-                                                    TV {{ i + 1 }} Setup
-                                                </h3>
+                                        <span class="font-semibold">
+                                            ${{ size.price }}
+                                        </span>
 
-                                                <div class="flex flex-col gap-8">
+                                    </div>
 
-                                                    <h4 class="font-semibold mb-4">TV Size</h4>
+                                </div>
 
-                                                    <div class="flex flex-col gap-3">
-
-                                                        <div
-                                                            *ngFor="let size of tvSizes"
-                                                            (click)="tv.size = size; calculateTotal()"
-                                                            class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
-                                                            [ngClass]="tv.size === size ? 'bg-orange-100 border border-orange-400' : 'bg-gray-100 hover:bg-gray-200'"
-                                                        >
-
-                                                            <p-radiobutton
-                                                                name="size{{i}}"
-                                                                [value]="size"
-                                                                [(ngModel)]="tv.size"
-                                                            />
-
-                                                            <label class="cursor-pointer flex-1">
-                                                                {{ size.label }}
-                                                            </label>
-
-                                                            <span class="font-semibold">
-                                                                ${{ size.price }}
-                                                            </span>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <!-- MOUNT -->
-                                                    <div>
-
-                                                        <h4 class="font-semibold mb-4">Select Mount Type</h4>
-
-                                                        <div class="flex flex-col gap-3">
-
-                                                            <div
-                                                                *ngFor="let mount of mountTypes"
-                                                                (click)="tv.mount = mount; calculateTotal()"
-                                                                class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
-                                                                [ngClass]="tv.mount === mount ? 'bg-orange-100 border border-orange-400' : 'bg-gray-100 hover:bg-gray-200'"
-                                                            >
-
-                                                                <p-radiobutton
-                                                                    name="mount{{i}}"
-                                                                    [value]="mount"
-                                                                    [(ngModel)]="tv.mount"
-                                                                />
-
-                                                                <label class="flex-1 cursor-pointer">
-                                                                    {{ mount.label }}
-                                                                </label>
-
-                                                                <span class="font-semibold">
-                                                                    ${{ mount.price }}
-                                                                </span>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
+                            </div>
 
 
-                                                    <!-- WIRES -->
-                                                    <div>
+                            <!-- MOUNT -->
+                            <div>
 
-                                                        <h4 class="font-semibold mb-4">
-                                                            Would you like to hide your wires?
-                                                        </h4>
+                                <h4 class="font-semibold mb-4">
+                                    Select Mount Type
+                                </h4>
 
-                                                        <div class="flex flex-col gap-3">
+                                <div class="flex flex-col gap-3">
 
-                                                            <div
-                                                                *ngFor="let wire of wireOptions"
-                                                                (click)="tv.wires = wire; calculateTotal()"
-                                                                class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
-                                                                [ngClass]="tv.wires === wire 
-                ? 'bg-orange-100 border border-orange-400' 
-                : 'bg-gray-100 hover:bg-gray-200'"
-                                                            >
+                                    <div
+                                        *ngFor="let mount of mountTypes"
+                                        (click)="tv.patchValue({ mount })"
+                                        class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
+                                        [ngClass]="tv.value.mount === mount
+                                ? 'bg-orange-100 border border-orange-400'
+                                : 'bg-gray-100 hover:bg-gray-200'"
+                                    >
 
-                                                                <p-radiobutton
-                                                                    name="wire{{i}}"
-                                                                    [value]="wire"
-                                                                    [(ngModel)]="tv.wires"
-                                                                >
-                                                                </p-radiobutton>
+                                        <p-radiobutton
+                                            formControlName="mount"
+                                            [value]="mount"
+                                            name="mount{{i}}"
+                                        />
 
-                                                                <label class="flex-1 cursor-pointer">
-                                                                    {{ wire.label }}
-                                                                </label>
+                                        <div class="flex-1">
 
-                                                                <span class="font-semibold">
-                                                                    ${{ wire.price }}
-                                                                </span>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <!-- ADDITIONAL -->
-                                                    <div>
-
-                                                        <h4 class="font-semibold mb-4">Additional Services</h4>
-
-                                                        <div class="flex flex-col gap-3">
-
-                                                            <div
-                                                                *ngFor="let service of additionalServices"
-                                                                (click)="toggleService(tv, service)"
-                                                                class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
-                                                                [ngClass]="tv.services?.includes(service)
-        ? 'bg-orange-100 border border-orange-400'
-        : 'bg-gray-100 hover:bg-gray-200'"
-                                                            >
-
-                                                                <p-checkbox
-                                                                    [value]="service"
-                                                                    [(ngModel)]="tv.services"
-                                                                    (onChange)="calculateTotal()"
-                                                                    (click)="$event.stopPropagation()"
-                                                                />
-
-                                                                <label class="flex-1 cursor-pointer">
-                                                                    {{ service.label }}
-                                                                </label>
-
-                                                                <span class="font-semibold">
-                                                                    ${{ service.price }}
-                                                                </span>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
+                                            <div class="cursor-pointer font-medium">
+                                                {{ mount.label }}
                                             </div>
 
-                                        </ng-template>
+                                            <div
+                                                *ngIf="mount.description"
+                                                class="text-xs text-gray-500 mt-1 leading-snug"
+                                            >
+                                                {{ mount.description }}
+                                            </div>
 
-                                    </p-step-panel>
+                                        </div>
 
-                                </p-step-item>
+                                        <span class="font-semibold">
+                                            ${{ mount.price }}
+                                        </span>
 
-                            </p-stepper>
+                                    </div>
 
+                                </div>
+
+                            </div>
+
+
+                            <!-- WIRES -->
+                            <div>
+
+                                <h4 class="font-semibold mb-4">
+                                    Would you like to hide your wires?
+                                </h4>
+
+                                <div class="flex flex-col gap-3">
+
+                                    <div
+                                        *ngFor="let wire of wireOptions"
+                                        (click)="tv.patchValue({ wires: wire })"
+                                        class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
+                                        [ngClass]="tv.value.wires === wire
+                                ? 'bg-orange-100 border border-orange-400'
+                                : 'bg-gray-100 hover:bg-gray-200'"
+                                    >
+
+                                        <p-radiobutton
+                                            formControlName="wires"
+                                            [value]="wire"
+                                            name="wire{{i}}"
+                                        />
+
+                                        <div class="flex-1">
+
+                                            <div class="cursor-pointer">
+                                                {{ wire.label }}
+                                            </div>
+
+                                            <div
+                                                *ngIf="wire.description"
+                                                class="text-xs text-gray-500 mt-1 leading-snug"
+                                            >
+                                                {{ wire.description }}
+                                            </div>
+
+                                        </div>
+
+                                        <span class="font-semibold">
+                                            ${{ wire.price }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- ADDITIONAL -->
+                            <div>
+
+                                <h4 class="font-semibold mb-4">
+                                    Additional Services
+                                </h4>
+
+                                <div class="flex flex-col gap-3">
+
+                                    <div
+                                        *ngFor="let service of additionalServices"
+                                        (click)="toggleService(i, service)"
+                                        class="flex items-center gap-3 p-4 rounded-lg cursor-pointer transition"
+                                        [ngClass]="tv.value.services?.includes(service)
+? 'bg-orange-100 border border-orange-400'
+: 'bg-gray-100 hover:bg-gray-200'"
+                                    >
+
+                                        <p-checkbox
+                                            formControlName="services"
+                                            [value]="service"
+                                            (click)="$event.stopPropagation()"
+                                        ></p-checkbox>
+
+                                        <label class="flex-1 cursor-pointer">
+                                            {{ service.label }}
+                                        </label>
+
+                                        <span class="font-semibold">
+                                            ${{ service.price }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
 
                     </div>
 
+
                     <!-- FOOTER -->
+
                     <div class="flex pt-10 justify-between">
 
                         <p-button
                             label="Back"
                             severity="secondary"
                             icon="pi pi-arrow-left"
-                            (onClick)="activateCallback(1)"
+                            (onClick)="activateCallback(i + 1)"
                         />
 
-                        <!-- TOTAL -->
                         <div class="text-center">
 
                             <div class="text-sm text-gray-500 uppercase tracking-wide">
@@ -306,16 +329,15 @@
                             label="Next"
                             icon="pi pi-arrow-right"
                             iconPos="right"
-                            (onClick)="activateCallback(3)"
+                            (onClick)="activateCallback(i + 3)"
                         />
 
                     </div>
 
                 </ng-template>
             </p-step-panel>
-
             <!-- STEP 3 -->
-            <p-step-panel [value]="3">
+            <p-step-panel [value]="summaryStep">
                 <ng-template
                     #content
                     let-activateCallback="activateCallback"
@@ -328,7 +350,7 @@
                     <div class="flex flex-col gap-6">
 
                         <div
-                            *ngFor="let tv of tvs; let i = index"
+                            *ngFor="let tv of tvArray.value; let i = index"
                             class="border rounded-lg p-6 bg-gray-50"
                         >
 
@@ -408,14 +430,14 @@
                             label="Back"
                             severity="secondary"
                             icon="pi pi-arrow-left"
-                            (onClick)="activateCallback(2)"
+                            (onClick)="activateCallback(tvArray.length + 1)"
                         />
 
                         <p-button
                             label="Continue"
                             icon="pi pi-arrow-right"
                             iconPos="right"
-                            (onClick)="activateCallback(4)"
+                            (onClick)="activateCallback(contactStep)"
                         />
 
                     </div>
@@ -423,45 +445,109 @@
                 </ng-template>
             </p-step-panel>
 
-            <p-step-panel [value]="4">
+            <p-step-panel [value]="contactStep">
                 <ng-template
                     #content
                     let-activateCallback="activateCallback"
                 >
 
                     <h2 class="text-4xl font-bold mb-8">
-                        Contact Details
+                        Contact
                     </h2>
 
-                    <div class="flex flex-col gap-6 w-full">
+                    <div
+                        [formGroup]="contactForm"
+                        class="flex flex-col gap-6 w-full"
+                    >
 
-                        <div>
+                        <div [appFieldValidation]="errorMessages">
                             <label class="font-medium">Address or ZIP code</label>
                             <input
                                 pInputText
+                                formControlName="address"
                                 class="w-full mt-2"
                             />
                         </div>
 
-                        <div>
+                        <div [appFieldValidation]="errorMessages">
                             <label class="font-medium">Name</label>
                             <input
                                 pInputText
+                                formControlName="name"
                                 class="w-full mt-2"
                             />
                         </div>
 
-                        <div>
-                            <label class="font-medium">Phone</label>
-                            <input
-                                pInputText
-                                class="w-full mt-2"
-                            />
+                        <div
+                            [appFieldValidation]="errorMessages"
+                            [formGroup]="phoneGroup"
+                        >
+
+                            <label class="font-medium">
+                                Phone
+                            </label>
+
+                            <p-iconfield iconPosition="left">
+
+                                <p-inputicon>
+
+                                    <ng-container *ngIf="phoneGroup.value.countryCode; else defaultIcon">
+
+                                        <img
+                                            [src]="'./assets/flags/' + phoneGroup.value.countryCode.toLowerCase() + '.svg'"
+                                            alt="Flag"
+                                            style="width:24px"
+                                        />
+
+                                    </ng-container>
+
+                                    <ng-template #defaultIcon>
+
+                                        <span
+                                            class="pi pi-phone text-surface-400"
+                                            style="font-size:20px"
+                                        >
+
+                                        </span>
+
+                                    </ng-template>
+
+                                </p-inputicon>
+
+                                <input
+                                    type="text"
+                                    pInputText
+                                    class="w-full mt-2"
+                                    formControlName="phoneNumber"
+                                    placeholder="Enter phone number"
+                                    (input)="onPhoneInput()"
+                                />
+
+                            </p-iconfield>
+
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <p-checkbox binary="true"></p-checkbox>
-                            <label>I agree with the privacy policy</label>
+
+                            <p-checkbox
+                                binary="true"
+                                formControlName="policy"
+                            ></p-checkbox>
+
+                            <label class="text-sm">
+
+                                I agree with the
+                                <a
+                                    href="https://tvpromounting.com/policy"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="text-primary underline hover:no-underline"
+                                >
+                                    privacy policy
+                                </a>
+
+                            </label>
+
                         </div>
 
                     </div>
@@ -472,7 +558,7 @@
                             label="Back"
                             severity="secondary"
                             icon="pi pi-arrow-left"
-                            (onClick)="activateCallback(3)"
+                            (onClick)="activateCallback(summaryStep)"
                         />
 
                         <p-button
@@ -489,4 +575,4 @@
         </p-step-panels>
 
     </p-stepper>
-</div>
+</form>
