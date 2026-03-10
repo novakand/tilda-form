@@ -566,6 +566,7 @@
                         <p-button
                             label="Submit"
                             type="submit"
+                            [disabled]="form.invalid && form.touched"
                             icon="pi pi-check"
                             iconPos="right"
                         />
