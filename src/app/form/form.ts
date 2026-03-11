@@ -57,36 +57,36 @@ export class Form implements OnInit {
     invalidPhone: 'Please check the number of digits in your phone number',
   };
   private messageListener!: (event: MessageEvent) => void;
-public sending = false;
+  public sending = false;
   constructor(private fb: FormBuilder) {
     this.buildForm();
   }
 
 
-ngOnInit() {
+  ngOnInit() {
 
-  this.messageListener = (event: MessageEvent) => {
+    this.messageListener = (event: MessageEvent) => {
 
-    if (event.data?.type === 'tv-form-success') {
-      this.showSuccessScreen();
-    }
+      if (event.data?.type === 'tv-form-success') {
+        this.showSuccessScreen();
+      }
 
-  };
+    };
 
-  window.addEventListener('message', this.messageListener);
+    window.addEventListener('message', this.messageListener);
 
-}
+  }
 
-ngOnDestroy() {
-  window.removeEventListener('message', this.messageListener);
-}
+  ngOnDestroy() {
+    window.removeEventListener('message', this.messageListener);
+  }
 
-public formSent = false;
+  public formSent = false;
 
-showSuccessScreen() {
-   this.sending = false;
-  this.formSent = true;
-}
+  showSuccessScreen() {
+    this.sending = false;
+    this.formSent = true;
+  }
 
   public form!: FormGroup;
 
@@ -315,22 +315,24 @@ showSuccessScreen() {
 
 
   public onSubmit(): void {
+    console.log(this.form.value);
+    console.log(this.form, 'FORM');
 
-  if (this.form.invalid) {
-    this.form.markAllAsTouched();
-    return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.sending = true;
+
+    const payload = this.getFormPayload();
+
+    window.parent.postMessage({
+      type: 'tv-mounting-form',
+      data: payload
+    }, '*');
+
   }
-
-  this.sending = true;
-
-  const payload = this.getFormPayload();
-
-  window.parent.postMessage({
-    type: 'tv-mounting-form',
-    data: payload
-  }, '*');
-
-}
 
   getFormPayload() {
 
