@@ -174,10 +174,10 @@ export class Form {
         address: [null, Validators.required],
         name: [null, Validators.required],
         phone: this.fb.group({
-          phoneCode: [null],
-          countryCode: [null],
-          phoneNumber: [null, Validators.required],
-          type: [null]
+          phoneCode: ['+1'],
+          countryCode: ['US'],
+          phoneNumber: ['+1', Validators.required],
+          type: [PhoneNumberTypeEnum.UNKNOWN]
         }),
         policy: [false, Validators.requiredTrue]
       })

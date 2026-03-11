@@ -42,14 +42,21 @@
                     let-activateCallback="activateCallback"
                 >
 
-                    <h2 class="text-4xl font-bold mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">
                         TV Count
                     </h2>
 
-                    <div class="grid grid-cols-2 gap-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-                        <!-- LEFT OPTIONS -->
-                        <div class="flex flex-col gap-4">
+                        <!-- IMAGE -->
+                        <div
+                            class="order-1 md:order-2 rounded min-h-[250px] md:min-h-[350px] bg-cover bg-center"
+                            style="background-image:url('https://optim.tildacdn.com/tild6134-3733-4137-b063-383532613261/-/format/webp/Mask_group_1.png.webp')"
+                        >
+                        </div>
+
+                        <!-- OPTIONS -->
+                        <div class="order-2 md:order-1 flex flex-col gap-4">
 
                             <div
                                 *ngFor="let category of categories"
@@ -74,13 +81,6 @@
 
                             </div>
 
-                        </div>
-
-                        <!-- RIGHT IMAGE -->
-                        <div
-                            class="rounded min-h-[350px] bg-cover bg-center"
-                            style="background-image:url('https://optim.tildacdn.com/tild6134-3733-4137-b063-383532613261/-/format/webp/Mask_group_1.png.webp')"
-                        >
                         </div>
 
                     </div>
@@ -111,7 +111,7 @@
                     let-activateCallback="activateCallback"
                 >
 
-                    <h2 class="text-4xl font-bold mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">
                         TV {{ i + 1 }} Setup
                     </h2>
 
@@ -344,7 +344,7 @@
                     let-activateCallback="activateCallback"
                 >
 
-                    <h2 class="text-4xl font-bold mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">
                         Summary
                     </h2>
 
@@ -452,7 +452,7 @@
                     let-activateCallback="activateCallback"
                 >
 
-                    <h2 class="text-4xl font-bold mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">
                         Contact
                     </h2>
 
