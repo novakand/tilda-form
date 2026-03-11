@@ -67,8 +67,14 @@ export class Form implements OnInit {
 
     this.messageListener = (event: MessageEvent) => {
 
+      console.log("📨 Message received from parent:", event.data);
+
       if (event.data?.type === 'tv-form-success') {
+
+        console.log("✅ Form successfully sent via Tilda");
+
         this.showSuccessScreen();
+
       }
 
     };
@@ -315,22 +321,49 @@ export class Form implements OnInit {
 
 
   public onSubmit(): void {
-    console.log(this.form.value);
-    console.log(this.form, 'FORM');
+
+    console.log("📤 Submit clicked");
 
     if (this.form.invalid) {
+
+      console.warn("❌ Form invalid", this.form.value);
+
       this.form.markAllAsTouched();
       return;
+
     }
 
     this.sending = true;
 
     const payload = this.getFormPayload();
 
-    window.parent.postMessage({
-      type: 'tv-mounting-form',
-      data: payload
-    }, '*');
+    console.log("📦 Payload to send:", payload);
+
+    // Проверка iframe
+    if (window.parent === window) {
+
+      console.warn("⚠️ Form is not inside iframe. postMessage skipped");
+
+      return;
+
+    }
+
+    try {
+
+      window.parent.postMessage({
+        type: 'tv-mounting-form',
+        data: payload
+      }, '*');
+
+      console.log("✅ postMessage sent");
+
+    } catch (err) {
+
+      console.error("❌ postMessage failed", err);
+
+      this.sending = false;
+
+    }
 
   }
 
@@ -338,7 +371,7 @@ export class Form implements OnInit {
 
     const form = this.form.value;
 
-    return {
+    const payload = {
 
       tvCount: form.category?.count,
       total: this.calculateTotal(),
@@ -360,6 +393,10 @@ Services: ${services}
       }).join('\n\n')
 
     };
+
+    console.log("📦 Generated payload:", payload);
+
+    return payload;
 
   }
 
