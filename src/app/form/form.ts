@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { CommonModule } from '@angular/common';
 import { StepperModule } from 'primeng/stepper';
@@ -48,7 +48,7 @@ const PhoneNumberType = libPhoneNumber.PhoneNumberType;
   standalone: true,
   styleUrl: './form.scss',
 })
-export class Form {
+export class Form implements OnInit {
 
   public errorMessages = {
     minlength: (error: any) =>
@@ -56,10 +56,37 @@ export class Form {
     pattern: 'Please enter a valid email address',
     invalidPhone: 'Please check the number of digits in your phone number',
   };
-
+  private messageListener!: (event: MessageEvent) => void;
+public sending = false;
   constructor(private fb: FormBuilder) {
     this.buildForm();
   }
+
+
+ngOnInit() {
+
+  this.messageListener = (event: MessageEvent) => {
+
+    if (event.data?.type === 'tv-form-success') {
+      this.showSuccessScreen();
+    }
+
+  };
+
+  window.addEventListener('message', this.messageListener);
+
+}
+
+ngOnDestroy() {
+  window.removeEventListener('message', this.messageListener);
+}
+
+public formSent = false;
+
+showSuccessScreen() {
+   this.sending = false;
+  this.formSent = true;
+}
 
   public form!: FormGroup;
 
@@ -288,9 +315,50 @@ export class Form {
 
 
   public onSubmit(): void {
-    console.log(this.form.value, 'GGGG')
-    if (this.form.invalid) return;
-    console.log(this.form.value, 'GGGG')
+
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    return;
+  }
+
+  this.sending = true;
+
+  const payload = this.getFormPayload();
+
+  window.parent.postMessage({
+    type: 'tv-mounting-form',
+    data: payload
+  }, '*');
+
+}
+
+  getFormPayload() {
+
+    const form = this.form.value;
+
+    return {
+
+      tvCount: form.category?.count,
+      total: this.calculateTotal(),
+      address: form.contact.address,
+      name: form.contact.name,
+      phone: form.contact.phone.phoneNumber,
+      tvDetails: form.tvs.map((tv: any, index: number) => {
+
+        const services = tv.services?.map((s: any) => s.label).join(', ') || '';
+
+        return `
+TV ${index + 1}
+Size: ${tv.size?.label}
+Mount: ${tv.mount?.label}
+Wires: ${tv.wires?.label}
+Services: ${services}
+      `;
+
+      }).join('\n\n')
+
+    };
+
   }
 
 
