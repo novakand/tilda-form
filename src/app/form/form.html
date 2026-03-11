@@ -45,47 +45,57 @@
                             let-activateCallback="activateCallback"
                         >
 
-                            <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">
-                                TV Count
-                            </h2>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-                                <!-- IMAGE -->
-                                <div
-                                    class="order-1 md:order-2 rounded min-h-[250px] md:min-h-[350px] bg-cover bg-center"
-                                    style="background-image:url('https://optim.tildacdn.com/tild6134-3733-4137-b063-383532613261/-/format/webp/Mask_group_1.png.webp')"
+                            <div class="">
+                                <!-- SCROLLABLE CONTENT -->
+                                <p-scrollpanel
+                                    styleClass="flex-1 pr-2"
+                                    [style]="{ height: '45vh' }"
                                 >
-                                </div>
 
-                                <!-- OPTIONS -->
-                                <div class="order-2 md:order-1 flex flex-col gap-4">
+                                    <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">
+                                        TV Count
+                                    </h2>
 
-                                    <div
-                                        *ngFor="let category of categories"
-                                        (click)="selectCategory(category)"
-                                        class="flex items-center gap-3 p-5 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition"
-                                    >
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-                                        <p-radiobutton
-                                            [inputId]="category.key"
-                                            name="category"
-                                            [value]="category"
-                                            formControlName="category"
+                                        <!-- IMAGE -->
+                                        <div
+                                            class="order-1 md:order-2 rounded min-h-[250px] md:min-h-[350px] bg-cover bg-center"
+                                            style="background-image:url('https://optim.tildacdn.com/tild6134-3733-4137-b063-383532613261/-/format/webp/Mask_group_1.png.webp')"
                                         >
-                                        </p-radiobutton>
+                                        </div>
 
-                                        <label
-                                            [for]="category.key"
-                                            class="text-lg cursor-pointer"
-                                        >
-                                            {{ category.name }}
-                                        </label>
+                                        <!-- OPTIONS -->
+                                        <div class="order-2 md:order-1 flex flex-col gap-4">
+
+                                            <div
+                                                *ngFor="let category of categories"
+                                                (click)="selectCategory(category)"
+                                                class="flex items-center gap-3 p-5 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition"
+                                            >
+
+                                                <p-radiobutton
+                                                    [inputId]="category.key"
+                                                    name="category"
+                                                    [value]="category"
+                                                    formControlName="category"
+                                                >
+                                                </p-radiobutton>
+
+                                                <label
+                                                    [for]="category.key"
+                                                    class="text-lg cursor-pointer"
+                                                >
+                                                    {{ category.name }}
+                                                </label>
+
+                                            </div>
+
+                                        </div>
 
                                     </div>
 
-                                </div>
-
+                                </p-scrollpanel>
                             </div>
 
                             <!-- FOOTER -->

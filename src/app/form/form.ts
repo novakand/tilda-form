@@ -11,6 +11,7 @@ import libPhoneNumber from 'google-libphonenumber';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { FieldValidationDirective } from '../directives/field-validation';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 export enum PhoneNumberTypeEnum {
   FIXED_LINE = 0,
   MOBILE = 1,
@@ -42,7 +43,8 @@ const PhoneNumberType = libPhoneNumber.PhoneNumberType;
     ReactiveFormsModule,
     IconFieldModule,
     InputIconModule,
-    FieldValidationDirective
+    FieldValidationDirective,
+    ScrollPanelModule
   ],
   templateUrl: './form.html',
   standalone: true,
