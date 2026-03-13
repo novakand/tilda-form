@@ -1,7 +1,8 @@
 ::ng-deep {
 
-    .p-steppanel-content {
-        display: block;
+    .p-steppanel:not(.p-steppanel-active)>.p-steppanel-content,
+    .p-steppanel-content.ng-animating {
+        overflow: visible;
     }
 
     @media (max-width: 767px) {
