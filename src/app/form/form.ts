@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { CommonModule } from '@angular/common';
 import { StepperModule } from 'primeng/stepper';
@@ -12,6 +12,8 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { FieldValidationDirective } from '../directives/field-validation';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { DatePickerModule } from 'primeng/datepicker';
+import { delay } from 'rxjs';
 export enum PhoneNumberTypeEnum {
   FIXED_LINE = 0,
   MOBILE = 1,
@@ -44,13 +46,48 @@ const PhoneNumberType = libPhoneNumber.PhoneNumberType;
     IconFieldModule,
     InputIconModule,
     FieldValidationDirective,
-    ScrollPanelModule
+    ScrollPanelModule,
+    DatePickerModule
   ],
   templateUrl: './form.html',
   standalone: true,
   styleUrl: './form.scss',
 })
 export class Form implements OnInit {
+  panelHeight = 0;
+  today = new Date();
+
+  @ViewChildren('panelWrapper') panelWrappers!: QueryList<ElementRef>;
+  isMobile = window.innerWidth < 768;
+
+  @HostListener('window:resize')
+
+  onStepChange() {
+    console.log('kkk')
+
+    setTimeout(() => {
+      this.updateHeight();
+    });
+
+  }
+
+  updateHeight() {
+
+    const panel = this.panelWrappers?.last;
+
+    if (!panel) return;
+     console.log('g')
+
+    const rect = panel.nativeElement.getBoundingClientRect();
+
+    const offsetBottom = 400;
+
+    this.panelHeight = window.innerHeight - rect.top - offsetBottom;
+    console.log(this.panelHeight, 'this.panelHeight')
+
+    this.cdr.detectChanges();
+
+  }
 
   public errorMessages = {
     minlength: (error: any) =>
@@ -58,12 +95,40 @@ export class Form implements OnInit {
     pattern: 'Please enter a valid email address',
     invalidPhone: 'Please check the number of digits in your phone number',
   };
+
   private messageListener!: (event: MessageEvent) => void;
   public sending = false;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private el: ElementRef,
+    private cdr: ChangeDetectorRef) {
     this.buildForm();
   }
 
+
+  ngAfterViewInit() {
+    this.panelWrappers.changes
+      .pipe(
+        delay(0) // дождаться рендера
+      )
+      .subscribe((data) => {
+        console.log('panelWrappers', data)
+        this.updateHeight();
+      });
+
+    // первый рендер
+    this.updateHeight();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => {
+      this.updateHeight();
+    }, 100);
+
+    this.isMobile = window.innerWidth < 768;
+  }
+
+  private resizeTimer: any;
 
   ngOnInit() {
 
@@ -85,11 +150,25 @@ export class Form implements OnInit {
 
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     window.removeEventListener('message', this.messageListener);
   }
 
   public formSent = false;
+
+  selectInstallation(option: string) {
+
+    this.form.patchValue({
+      installationTime: option
+    });
+
+    if (option !== 'This week') {
+      this.form.patchValue({
+        installationDate: null
+      });
+    }
+
+  }
 
   showSuccessScreen() {
     this.sending = false;
@@ -98,7 +177,7 @@ export class Form implements OnInit {
 
   public form!: FormGroup;
 
-  public activeStep = 1;
+  public activeStep = 0;
 
   public categories = [
     { key: '1', name: 'Mounting of One TV', count: 1 },
@@ -107,6 +186,7 @@ export class Form implements OnInit {
     { key: '4', name: 'Mounting of Four TVs', count: 4 },
     { key: '5', name: 'Mounting of Five TVs', count: 5 }
   ];
+
 
   getTvForm(index: number): FormGroup {
     return this.tvArray.at(index) as FormGroup;
@@ -200,7 +280,8 @@ export class Form implements OnInit {
   buildForm() {
 
     this.form = this.fb.group({
-
+      installationTime: [null, Validators.required],
+      installationDate: [null],
       category: [null, Validators.required],
 
       tvs: this.fb.array([]),
@@ -313,12 +394,23 @@ export class Form implements OnInit {
 
   }
 
-  get summaryStep() {
+  installationOptions = [
+    'Today',
+    'Tomorrow',
+    'This week',
+    'Just checking price'
+  ];
+
+  get installationStep() {
     return this.tvArray.length + 2;
   }
 
-  get contactStep() {
+  get summaryStep() {
     return this.tvArray.length + 3;
+  }
+
+  get contactStep() {
+    return this.tvArray.length + 4;
   }
 
 
@@ -378,6 +470,8 @@ export class Form implements OnInit {
       tvCount: form.category?.count,
       total: this.calculateTotal(),
       address: form.contact.address,
+      installationTime: form.installationTime,
+      installationDate: form.installationDate,
       name: form.contact.name,
       phone: form.contact.phone.phoneNumber,
       tvDetails: form.tvs.map((tv: any, index: number) => {

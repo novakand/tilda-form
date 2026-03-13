@@ -12,6 +12,7 @@ body {
 }
 
 body {
+    // overflow-y: auto;
     overflow: hidden;
 }
 
@@ -21,6 +22,9 @@ body {
     --map-button-hover-color: #f1f5f9;
 }
 
+.p-steppanel-content {
+    height: auto !important;
+}
 
 :root {
     --app-font: "Montserrat", system-ui, -apple-system, "Segoe UI",
