@@ -435,7 +435,11 @@
 
                                 </div>
                                 <div
-                                    class="footer-mask sticky bottom-0 z-20 bg-white py-3 px-4 pb-[calc(6rem+env(safe-area-inset-bottom))]">
+                                    class="footer-mask sticky bottom-0 z-20 bg-white py-3 px-4"
+                                    [ngClass]="{
+    'pb-[calc(6rem+env(safe-area-inset-bottom))]': isMobile
+  }"
+                                >
 
                                     <div class="pointer-events-auto flex w-full items-center justify-between gap-3">
 

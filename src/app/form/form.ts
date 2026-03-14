@@ -63,7 +63,7 @@ export class Form implements OnInit {
   @HostListener('window:resize')
 
   onStepChange() {
-    console.log('kkk')
+    //  console.log('kkk')
 
     setTimeout(() => {
       this.updateHeight();
@@ -76,14 +76,14 @@ export class Form implements OnInit {
     const panel = this.panelWrappers?.last;
 
     if (!panel) return;
-    console.log('g')
+    // console.log('g')
 
     const rect = panel.nativeElement.getBoundingClientRect();
 
     const offsetBottom = 400;
 
     this.panelHeight = window.innerHeight - rect.top - offsetBottom;
-    console.log(this.panelHeight, 'this.panelHeight')
+    //console.log(this.panelHeight, 'this.panelHeight')
 
     this.cdr.detectChanges();
 
@@ -110,7 +110,7 @@ export class Form implements OnInit {
         delay(0) // дождаться рендера
       )
       .subscribe((data) => {
-        console.log('panelWrappers', data)
+        //  console.log('panelWrappers', data)
         this.updateHeight();
       });
 
@@ -172,7 +172,7 @@ export class Form implements OnInit {
 
   showSuccessScreen() {
     this.sending = false;
-    this.formSent = true;
+    // this.formSent = true;
   }
 
   public form!: FormGroup;
@@ -475,7 +475,7 @@ export class Form implements OnInit {
       tvCount: form.category?.count,
       total: this.calculateTotal(),
       address: form.contact.address,
-      email:form.contact.email,
+      email: form.contact.email,
       installationTime: form.installationTime,
       installationDate: form.installationDate,
       name: form.contact.name,
