@@ -56,7 +56,8 @@ const PhoneNumberType = libPhoneNumber.PhoneNumberType;
 export class Form implements OnInit {
   panelHeight = 0;
   today = new Date();
-
+public formError = false;
+public errorMessage = '';
   @ViewChildren('panelWrapper') panelWrappers!: QueryList<ElementRef>;
   isMobile = window.innerWidth < 768;
 
@@ -132,19 +133,30 @@ export class Form implements OnInit {
 
   ngOnInit() {
 
-    this.messageListener = (event: MessageEvent) => {
+   this.messageListener = (event: MessageEvent) => {
 
-      console.log("📨 Message received from parent:", event.data);
+  console.log("📨 Message received from parent:", event.data);
 
-      if (event.data?.type === 'tv-form-success') {
+  if (event.data?.type === 'tv-form-success') {
 
-        console.log("✅ Form successfully sent via Tilda");
+    console.log("✅ Form successfully sent via Tilda");
 
-        this.showSuccessScreen();
+    this.showSuccessScreen();
 
-      }
+  }
 
-    };
+  if (event.data?.type === 'tv-form-error') {
+
+    console.error("❌ Tilda form sending failed");
+
+     this.sending = false;
+  this.formError = true;
+
+    alert("Something went wrong. Please try again.");
+
+  }
+
+};
 
     window.addEventListener('message', this.messageListener);
 
@@ -171,8 +183,9 @@ export class Form implements OnInit {
   }
 
   showSuccessScreen() {
-    this.sending = false;
-    // this.formSent = true;
+   this.sending = false;
+  this.formSent = true;
+  this.formError = false;
   }
 
   public form!: FormGroup;
