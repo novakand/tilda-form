@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
 import { RadioButton } from 'primeng/radiobutton';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import libPhoneNumber from 'google-libphonenumber';
@@ -76,7 +76,7 @@ export class Form implements OnInit {
     const panel = this.panelWrappers?.last;
 
     if (!panel) return;
-     console.log('g')
+    console.log('g')
 
     const rect = panel.nativeElement.getBoundingClientRect();
 
@@ -218,9 +218,10 @@ export class Form implements OnInit {
   ];
 
   public additionalServices = [
-    { label: 'Soundbar', price: 69 },
+    { label: 'Install Mirror', price: 0 },
+    { label: 'Soundbar', price: 69, description: 'Mount is not included in the price.' },
     { label: 'Dismount Existing TV', price: 39 },
-    { label: 'Xbox or PlayStation', price: 69 },
+    { label: 'Xbox or PlayStation', price: 69, description: 'Mount is not included in the price.' },
     { label: 'Install Wall Shelf', price: 49 }
   ];
 
@@ -289,6 +290,10 @@ export class Form implements OnInit {
       contact: this.fb.group({
         address: [null, Validators.required],
         name: [null, Validators.required],
+        email: new FormControl(null, [
+          Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+          Validators.email
+        ]),
         phone: this.fb.group({
           phoneCode: ['+1'],
           countryCode: ['US'],
@@ -325,8 +330,8 @@ export class Form implements OnInit {
       this.tvArray.push(
         this.fb.group({
           size: [null, Validators.required],
-          mount: [null, Validators.required],
-          wires: [null, Validators.required],
+          mount: [null],
+          wires: [null],
           services: this.fb.control([])
         })
       );
@@ -470,6 +475,7 @@ export class Form implements OnInit {
       tvCount: form.category?.count,
       total: this.calculateTotal(),
       address: form.contact.address,
+      email:form.contact.email,
       installationTime: form.installationTime,
       installationDate: form.installationDate,
       name: form.contact.name,
