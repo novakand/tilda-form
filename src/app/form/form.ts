@@ -56,8 +56,8 @@ const PhoneNumberType = libPhoneNumber.PhoneNumberType;
 export class Form implements OnInit {
   panelHeight = 0;
   today = new Date();
-public formError = false;
-public errorMessage = '';
+  public formError = false;
+  public errorMessage = '';
   @ViewChildren('panelWrapper') panelWrappers!: QueryList<ElementRef>;
   isMobile = window.innerWidth < 768;
 
@@ -133,30 +133,30 @@ public errorMessage = '';
 
   ngOnInit() {
 
-   this.messageListener = (event: MessageEvent) => {
+    this.messageListener = (event: MessageEvent) => {
 
-  console.log("📨 Message received from parent:", event.data);
+      console.log("📨 Message received from parent:", event.data);
 
-  if (event.data?.type === 'tv-form-success') {
+      if (event.data?.type === 'tv-form-success') {
 
-    console.log("✅ Form successfully sent via Tilda");
+        console.log("✅ Form successfully sent via Tilda");
 
-    this.showSuccessScreen();
+        this.showSuccessScreen();
 
-  }
+      }
 
-  if (event.data?.type === 'tv-form-error') {
+      if (event.data?.type === 'tv-form-error') {
 
-    console.error("❌ Tilda form sending failed");
+        console.error("❌ Tilda form sending failed");
 
-     this.sending = false;
-  this.formError = true;
+        this.sending = false;
+        this.formError = true;
 
-    alert("Something went wrong. Please try again.");
+        alert("Something went wrong. Please try again.");
 
-  }
+      }
 
-};
+    };
 
     window.addEventListener('message', this.messageListener);
 
@@ -183,9 +183,9 @@ public errorMessage = '';
   }
 
   showSuccessScreen() {
-   this.sending = false;
-  this.formSent = true;
-  this.formError = false;
+    this.sending = false;
+    this.formSent = true;
+    this.formError = false;
   }
 
   public form!: FormGroup;
@@ -231,7 +231,7 @@ public errorMessage = '';
   ];
 
   public additionalServices = [
-    { label: 'Install Mirror', price: 0 },
+    { label: 'Install Mirror', price: 49 },
     { label: 'Soundbar', price: 69, description: 'Mount is not included in the price.' },
     { label: 'Dismount Existing TV', price: 39 },
     { label: 'Xbox or PlayStation', price: 69, description: 'Mount is not included in the price.' },

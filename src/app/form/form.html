@@ -490,10 +490,6 @@
 
                                 <!-- FOOTER -->
 
-                                <!-- FOOTER -->
-
-
-
                             </ng-template>
                         </div>
                     </p-step-panel>
@@ -562,7 +558,12 @@
 
                                 </div>
 
-                                <div class="footer-mask sticky bottom-0 z-20 bg-white py-3 px-4">
+                                <div
+                                    class="footer-mask sticky bottom-0 z-20 bg-white py-3 px-4"
+                                    [ngClass]="{
+    'pb-[calc(6rem+env(safe-area-inset-bottom))]': isMobile
+  }"
+                                >
 
                                     <div class="pointer-events-auto flex w-full justify-between">
 
@@ -945,14 +946,14 @@
 
         <!-- PHONE -->
         <div class="flex items-start gap-3">
-            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-orange-100">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full">
                 <i class="pi pi-phone text-orange-600 text-sm"></i>
             </span>
             <span>
                 Need immediate assistance?
                 <a
                     href="tel:+13213484244"
-                    class="text-primary font-medium hover:underline ml-1"
+                    class="font-medium hover:underline ml-1"
                 >
                     Call us now: +1 (321) 348-4244
                 </a>
@@ -967,7 +968,7 @@
             <a
                 href="https://search.google.com/local/reviews?placeid=ChIJmyI4Riksh20Rkah5NgGAVX4&authuser=0&hl=en&gl=EN"
                 target="_blank"
-                class="text-primary font-medium hover:underline"
+                class="font-medium hover:underline"
             >
                 See why customers choose us – View our Google reviews
             </a>
