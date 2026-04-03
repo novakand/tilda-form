@@ -116,6 +116,7 @@
 /* 🔥 БРЕНД СТРОКА */
 .brand-row {
     margin-top: -20px;
+
     /* 🔥 подтягиваем к ТВ */
     display: flex;
     align-items: center;
@@ -155,6 +156,7 @@
 
 @media (max-width: 480px) {
     .brand-row {
+        margin-top: -40px;
         gap: 8px;
     }
 
@@ -164,7 +166,7 @@
     }
 
     .worker {
-        width: 120px;
+        width: 160px;
         /* было 170 → слишком большой */
         transform: translateX(10px);
     }
@@ -173,4 +175,13 @@
         width: 30px;
         height: 30px;
     }
+}
+
+.info-item {
+    align-items: flex-start;
+    /* уже есть, но фиксируем */
+}
+
+.info-item span:last-child {
+    word-break: break-word;
 }

@@ -237,7 +237,7 @@ export class Form implements OnInit {
     window.removeEventListener('message', this.messageListener);
   }
 
-  public formSent = true;
+  public formSent = false;
 
   selectInstallation(option: string) {
 
