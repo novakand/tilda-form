@@ -31,6 +31,7 @@
     "@primeuix/themes": "^2.0.3",
     "@tailwindcss/postcss": "^4.2.1",
     "google-libphonenumber": "^3.2.44",
+    "gsap": "^3.14.2",
     "postcss": "^8.5.8",
     "primeicons": "^7.0.0",
     "primeng": "^20.4.0",

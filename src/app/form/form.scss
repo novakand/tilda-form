@@ -70,3 +70,83 @@
     }
 
 }
+
+.scene {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* сцена */
+.stage {
+    position: relative;
+    height: 180px;
+    /* было 200 */
+    max-width: 420px;
+    /* было 320 */
+    margin: 0 auto;
+}
+
+/* TV */
+.tv-wrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 440px;
+    /* было 260 */
+}
+
+/* TV */
+.tv {
+    width: 100%;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
+}
+
+/* mount */
+.mount {
+    position: absolute;
+    top: 25px;
+    left: 55%;
+    transform: translateX(-50%);
+    width: 70px;
+}
+
+/* 🔥 БРЕНД СТРОКА */
+.brand-row {
+    margin-top: -20px;
+    /* 🔥 подтягиваем к ТВ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* logo */
+.logo {
+    width: 140px;
+    transform: translateX(50px);
+    /* 🔥 сдвиг вправо */
+}
+
+/* worker */
+.worker {
+    width: 170px;
+    z-index: 9999;
+}
+
+/* check */
+.check {
+    width: 36px;
+    height: 36px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(60px, 0px);
+}
+
+.check i {
+    color: white;
+    font-size: 16px;
+}

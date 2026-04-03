@@ -14,6 +14,7 @@ import { FieldValidationDirective } from '../directives/field-validation';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { DatePickerModule } from 'primeng/datepicker';
 import { delay } from 'rxjs';
+import { gsap } from "gsap";
 export enum PhoneNumberTypeEnum {
   FIXED_LINE = 0,
   MOBILE = 1,
@@ -64,12 +65,78 @@ export class Form implements OnInit {
   @HostListener('window:resize')
 
   onStepChange() {
-    //  console.log('kkk')
-
     setTimeout(() => {
       this.updateHeight();
     });
 
+  }
+
+  private runSuccessAnimation() {
+    const tl = gsap.timeline();
+
+    // 1. mount
+    tl.from(".mount", {
+      scale: 0.5,
+      opacity: 0,
+      duration: 0.4,
+      ease: "back.out(2)"
+    })
+
+      // 2. tv падает
+      .from(".tv", {
+        y: -250,
+        scale: 0.85,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power2.out"
+      }, "-=0.2")
+
+      // 3. bounce
+      .to(".tv", { y: 12, duration: 0.12 })
+      .to(".tv", { y: 0, duration: 0.2, ease: "power2.out" })
+
+      // 4. микро-шейк
+      .to(".tv", {
+        x: 2,
+        duration: 0.05,
+        yoyo: true,
+        repeat: 2
+      })
+
+      // 🔥 5. БРЕНД СРАЗУ ВСЁМ БЛОКОМ
+      .from(".brand-row", {
+        opacity: 0,
+        y: 30,
+        duration: 0.5
+      })
+
+      // 6. галочка поверх
+      .from(".check", {
+        scale: 0,
+        duration: 0.3,
+        ease: "back.out(2)"
+      }, "-=0.3")
+
+      // 🔥 7. текст
+      .from(".title", {
+        opacity: 0,
+        y: 20,
+        duration: 0.4
+      })
+
+      .from(".subtitle", {
+        opacity: 0,
+        y: 15,
+        duration: 0.4
+      }, "-=0.2")
+
+      // 🔥 8. список по очереди
+      .from(".info-item", {
+        opacity: 0,
+        y: 15,
+        duration: 0.4,
+        stagger: 0.15
+      }, "-=0.2");
   }
 
   updateHeight() {
@@ -111,12 +178,16 @@ export class Form implements OnInit {
         delay(0) // дождаться рендера
       )
       .subscribe((data) => {
-        //  console.log('panelWrappers', data)
         this.updateHeight();
       });
 
-    // первый рендер
     this.updateHeight();
+
+    if (this.formSent) {
+      setTimeout(() => {
+        this.runSuccessAnimation();
+      });
+    }
   }
 
   @HostListener('window:resize')

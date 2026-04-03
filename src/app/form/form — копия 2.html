@@ -914,65 +914,28 @@
     </form>
 </div>
 
-
 <div
     *ngIf="formSent"
     class="text-center py-20 max-w-lg mx-auto flex flex-col items-center"
 >
 
-    <!-- 🎬 СЦЕНА -->
-    <div class="scene">
+    <!-- SUCCESS ICON -->
+    <span class="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-6">
+        <i class="pi pi-check text-green-600 text-2xl"></i>
+    </span>
 
-        <div class="stage">
-
-            <!-- TV -->
-            <div class="tv-wrapper">
-                <img
-                    src="assets/images/mount.png"
-                    class="mount"
-                />
-                <img
-                    src="assets/images/tv.png"
-                    class="tv"
-                />
-            </div>
-
-        </div>
-
-        <!-- 🔥 БРЕНД-БЛОК (как в макете) -->
-        <div class="brand-row">
-
-            <img
-                src="assets/images/logo.png"
-                class="logo"
-            />
-
-            <div class="check">
-                <i class="pi pi-check"></i>
-            </div>
-
-            <img
-                src="assets/images/worker.png"
-                class="worker"
-            />
-
-        </div>
-
-    </div>
-
-    <!-- текст оставляем -->
-    <h2 class=" title text-3xl font-bold mb-4">
+    <h2 class="text-3xl font-bold mb-4">
         Thank you!
     </h2>
 
-    <p class="subtitle text-gray-600 mb-8">
+    <p class="text-gray-600 mb-8">
         Your request has been sent successfully.
     </p>
 
-    <div class="info flex flex-col gap-4 text-left text-sm md:text-base">
+    <div class="flex flex-col gap-4 text-left text-sm md:text-base">
 
         <!-- RESPONSE TIME -->
-        <div class="info-item flex items-start gap-3">
+        <div class="flex items-start gap-3">
             <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100">
                 <i class="pi pi-clock text-blue-600 text-sm"></i>
             </span>
@@ -982,7 +945,7 @@
         </div>
 
         <!-- PHONE -->
-        <div class="info-item flex items-start gap-3">
+        <div class="flex items-start gap-3">
             <span class="flex items-center justify-center w-7 h-7 rounded-full">
                 <i class="pi pi-phone text-orange-600 text-sm"></i>
             </span>
@@ -998,7 +961,7 @@
         </div>
 
         <!-- REVIEWS -->
-        <div class="info-item flex items-start gap-3">
+        <div class="flex items-start gap-3">
             <span class="flex items-center justify-center w-7 h-7 rounded-full bg-yellow-100">
                 <i class="pi pi-star-fill text-yellow-600 text-sm"></i>
             </span>
