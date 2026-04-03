@@ -257,6 +257,12 @@ export class Form implements OnInit {
     this.sending = false;
     this.formSent = true;
     this.formError = false;
+
+    this.cdr.detectChanges(); // 🔥 заставляем Angular дорисовать DOM
+
+    setTimeout(() => {
+      this.runSuccessAnimation();
+    }, 50); // 🔥 маленькая задержка
   }
 
   public form!: FormGroup;
