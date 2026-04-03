@@ -73,6 +73,7 @@
 
 .scene {
     width: 100%;
+    max-width: 100%;
     margin-bottom: 20px;
 }
 
@@ -92,7 +93,8 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 440px;
+    width: 100%;
+    max-width: 440px;
     /* было 260 */
 }
 
@@ -149,4 +151,26 @@
 .check i {
     color: white;
     font-size: 16px;
+}
+
+@media (max-width: 480px) {
+    .brand-row {
+        gap: 8px;
+    }
+
+    .logo {
+        width: 120px;
+        transform: translateX(30px);
+    }
+
+    .worker {
+        width: 120px;
+        /* было 170 → слишком большой */
+        transform: translateX(10px);
+    }
+
+    .check {
+        width: 30px;
+        height: 30px;
+    }
 }
