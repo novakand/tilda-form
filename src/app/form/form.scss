@@ -74,16 +74,14 @@
 .scene {
     width: 100%;
     max-width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 6px;
 }
 
 /* сцена */
 .stage {
     position: relative;
     height: 180px;
-    /* было 200 */
     max-width: 420px;
-    /* было 320 */
     margin: 0 auto;
 }
 
@@ -95,7 +93,6 @@
     transform: translateX(-50%);
     width: 100%;
     max-width: 440px;
-    /* было 260 */
 }
 
 /* TV */
