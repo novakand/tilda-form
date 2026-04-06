@@ -141,6 +141,7 @@
     background: #22c55e;
     border-radius: 50%;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     transform: translate(60px, 0px);
