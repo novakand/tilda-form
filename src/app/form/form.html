@@ -917,100 +917,101 @@
 
 <div
     *ngIf="formSent"
-    class="text-center py-2 px-4 sm:px-6 max-w-lg mx-auto flex flex-col items-center"
+    class="text-center py-2 px-4 sm:px-6 max-w-lg mx-auto flex flex-col items-center h-dvh overflow-hidden"
 >
+    <div class="flex-1 overflow-y-auto w-full">
+        <!-- 🎬 СЦЕНА -->
+        <div class="scene">
 
-    <!-- 🎬 СЦЕНА -->
-    <div class="scene">
+            <div class="stage">
 
-        <div class="stage">
+                <!-- TV -->
+                <div class="tv-wrapper">
+                    <img
+                        src="assets/images/mount.png"
+                        class="mount"
+                    />
+                    <img
+                        src="assets/images/tv.png"
+                        class="tv"
+                    />
+                </div>
 
-            <!-- TV -->
-            <div class="tv-wrapper">
+            </div>
+
+            <!-- 🔥 БРЕНД-БЛОК (как в макете) -->
+            <div class="brand-row">
+
                 <img
-                    src="assets/images/mount.png"
-                    class="mount"
+                    src="assets/images/logo.png"
+                    class="logo"
                 />
+
+                <div class="check">
+                    <i class="pi pi-check"></i>
+                </div>
+
                 <img
-                    src="assets/images/tv.png"
-                    class="tv"
+                    src="assets/images/worker.png"
+                    class="worker"
                 />
+
             </div>
 
         </div>
 
-        <!-- 🔥 БРЕНД-БЛОК (как в макете) -->
-        <div class="brand-row">
+        <!-- текст оставляем -->
+        <h2 class=" title text-3xl font-bold mb-4">
+            Thank you!
+        </h2>
 
-            <img
-                src="assets/images/logo.png"
-                class="logo"
-            />
+        <p class="subtitle text-gray-600 mb-8">
+            Your request has been sent successfully.
+        </p>
 
-            <div class="check">
-                <i class="pi pi-check"></i>
+        <div class="info flex flex-col gap-4 text-left text-sm md:text-base">
+
+            <!-- RESPONSE TIME -->
+            <div class="info-item flex items-start gap-3">
+                <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 shrink-0">
+                    <i class="pi pi-clock text-blue-600 text-sm"></i>
+                </span>
+                <span>
+                    Our team will contact you within <strong>5–10 minutes</strong> to confirm your installation details.
+                </span>
             </div>
 
-            <img
-                src="assets/images/worker.png"
-                class="worker"
-            />
+            <!-- PHONE -->
+            <div class="info-item flex items-start gap-3">
+                <span class="flex items-center justify-center w-7 h-7 rounded-full shrink-0">
+                    <i class="pi pi-phone text-orange-600 text-sm"></i>
+                </span>
+                <span>
+                    Need immediate assistance?
+                    <a
+                        href="tel:+13213484244"
+                        class="font-medium hover:underline ml-1 whitespace-nowrap"
+                    >
+                        Call us now: +1 (321) 348-4244
+                    </a>
+                </span>
+            </div>
 
-        </div>
-
-    </div>
-
-    <!-- текст оставляем -->
-    <h2 class=" title text-3xl font-bold mb-4">
-        Thank you!
-    </h2>
-
-    <p class="subtitle text-gray-600 mb-8">
-        Your request has been sent successfully.
-    </p>
-
-    <div class="info flex flex-col gap-4 text-left text-sm md:text-base">
-
-        <!-- RESPONSE TIME -->
-        <div class="info-item flex items-start gap-3">
-            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 shrink-0">
-                <i class="pi pi-clock text-blue-600 text-sm"></i>
-            </span>
-            <span>
-                Our team will contact you within <strong>5–10 minutes</strong> to confirm your installation details.
-            </span>
-        </div>
-
-        <!-- PHONE -->
-        <div class="info-item flex items-start gap-3">
-            <span class="flex items-center justify-center w-7 h-7 rounded-full shrink-0">
-                <i class="pi pi-phone text-orange-600 text-sm"></i>
-            </span>
-            <span>
-                Need immediate assistance?
+            <!-- REVIEWS -->
+            <div class="info-item flex items-start gap-3">
+                <span class="flex items-center justify-center w-7 h-7 rounded-full bg-yellow-100 shrink-0">
+                    <i class="pi pi-star-fill text-yellow-600 text-sm"></i>
+                </span>
                 <a
-                    href="tel:+13213484244"
-                    class="font-medium hover:underline ml-1 whitespace-nowrap"
+                    href="https://search.google.com/local/reviews?placeid=ChIJmyI4Riksh20Rkah5NgGAVX4&authuser=0&hl=en&gl=EN"
+                    target="_blank"
+                    class="font-medium hover:underline"
                 >
-                    Call us now: +1 (321) 348-4244
+                    See why customers choose us – View our Google reviews
                 </a>
-            </span>
-        </div>
+            </div>
 
-        <!-- REVIEWS -->
-        <div class="info-item flex items-start gap-3">
-            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-yellow-100 shrink-0">
-                <i class="pi pi-star-fill text-yellow-600 text-sm"></i>
-            </span>
-            <a
-                href="https://search.google.com/local/reviews?placeid=ChIJmyI4Riksh20Rkah5NgGAVX4&authuser=0&hl=en&gl=EN"
-                target="_blank"
-                class="font-medium hover:underline"
-            >
-                See why customers choose us – View our Google reviews
-            </a>
         </div>
-
     </div>
 
 </div>
