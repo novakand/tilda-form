@@ -231,7 +231,7 @@ export class Form implements OnInit {
 
         console.log("🔄 Reset form from Tilda");
 
-        //  this.resetFullForm();
+        this.resetFullForm();
 
 
       }
