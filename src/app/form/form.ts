@@ -215,10 +215,10 @@ export class Form implements OnInit {
         this.showSuccessScreen();
 
         setTimeout(() => {
-          this.resetFullForm();   // 🔥 вот здесь
+          // this.resetFullForm();   // 🔥 вот здесь
         }, 1500); // чтобы пользователь увидел success
 
-        return;
+        // return;
 
       }
 
