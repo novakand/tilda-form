@@ -232,6 +232,7 @@ export class Form implements OnInit {
         console.log("🔄 Reset form from Tilda");
 
         this.resetFullForm();
+        return;
 
       }
 
@@ -244,17 +245,17 @@ export class Form implements OnInit {
 
   private resetFullForm() {
 
-    this.form.reset();
+    console.log("🧹 FULL RESET");
 
-    this.tvArray.clear();
+    // 🔥 ПОЛНОСТЬЮ пересоздаём форму
+    this.buildForm();
 
     this.activeStep = 0;
     this.formSent = false;
     this.formError = false;
     this.sending = false;
 
-    this.buildForm();
-
+    // 🔥 важно
     this.cdr.detectChanges();
 
   }
