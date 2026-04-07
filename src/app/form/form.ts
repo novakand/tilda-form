@@ -227,9 +227,35 @@ export class Form implements OnInit {
 
       }
 
+      if (event.data?.type === 'tv-form-reset') {
+
+        console.log("🔄 Reset form from Tilda");
+
+        this.resetFullForm();
+
+      }
+
     };
 
     window.addEventListener('message', this.messageListener);
+
+  }
+
+
+  private resetFullForm() {
+
+    this.form.reset();
+
+    this.tvArray.clear();
+
+    this.activeStep = 0;
+    this.formSent = false;
+    this.formError = false;
+    this.sending = false;
+
+    this.buildForm();
+
+    this.cdr.detectChanges();
 
   }
 
