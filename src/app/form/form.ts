@@ -56,6 +56,7 @@ const PhoneNumberType = libPhoneNumber.PhoneNumberType;
 })
 export class Form implements OnInit {
   panelHeight = 0;
+  private successCompleted = false;
   today = new Date();
   public formError = false;
   public errorMessage = '';
@@ -212,13 +213,13 @@ export class Form implements OnInit {
 
         console.log("✅ Form successfully sent via Tilda");
 
+        this.successCompleted = true;
+
         this.showSuccessScreen();
 
-        setTimeout(() => {
-          this.resetFullForm();   // 🔥 вот здесь
-        }, 1500); // чтобы пользователь увидел success
 
-        // return;
+
+        return;
 
       }
 
@@ -230,16 +231,24 @@ export class Form implements OnInit {
         this.formError = true;
 
         alert("Something went wrong. Please try again.");
-
+        return;
       }
 
       if (event.data?.type === 'tv-form-reset') {
 
-        console.log("🔄 Reset form from Tilda");
+        console.log("🔄 Popup closed");
 
-        //  this.resetFullForm();
+        if (this.successCompleted) {
 
+          console.log("🧹 Reset after success");
 
+          this.resetFullForm();
+
+          this.successCompleted = false; // 👈 сбрасываем флаг
+
+        }
+
+        return;
       }
 
     };
