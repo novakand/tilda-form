@@ -214,6 +214,12 @@ export class Form implements OnInit {
 
         this.showSuccessScreen();
 
+        setTimeout(() => {
+          this.resetFullForm();   // 🔥 вот здесь
+        }, 1500); // чтобы пользователь увидел success
+
+        return;
+
       }
 
       if (event.data?.type === 'tv-form-error') {
@@ -289,7 +295,9 @@ export class Form implements OnInit {
 
     setTimeout(() => {
       this.runSuccessAnimation();
-    }, 50); // 🔥 маленькая задержка
+    }, 0); // 🔥 маленькая задержка
+
+
   }
 
   public form!: FormGroup;

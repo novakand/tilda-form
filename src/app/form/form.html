@@ -889,8 +889,8 @@
                                             label="Submit"
                                             [size]="isMobile ? 'small' : undefined"
                                             type="submit"
-                                            [disabled]="form.invalid"
-                                            icon="pi pi-check"
+                                            [disabled]="form.invalid || sending"
+                                            [icon]="sending ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
                                             iconPos="right"
                                         />
                                     </div>
