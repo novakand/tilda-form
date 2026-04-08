@@ -921,9 +921,9 @@
 >
     <div class="flex-1 min-h-0 overflow-y-auto pr-0">
         <div class="text-center max-w-lg mx-auto flex flex-col items-center">
-            <div class="flex-1 w-full"> <!-- 🎬 СЦЕНА -->
+            <div class="flex-1 w-full">
                 <div class="scene">
-                    <div class="stage"> <!-- TV -->
+                    <div class="stage">
                         <div class="tv-wrapper"> <img
                                 src="assets/images/mount.png"
                                 class="mount"
@@ -931,7 +931,7 @@
                                 src="assets/images/tv.png"
                                 class="tv"
                             /> </div>
-                    </div> <!-- 🔥 БРЕНД-БЛОК (как в макете) -->
+                    </div>
                     <div class="brand-row"> <img
                             src="assets/images/logo.png"
                             class="logo"
@@ -968,28 +968,29 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div
-        *ngIf="formError"
-        class="text-center py-20 max-w-lg mx-auto"
-    >
+<div
+    *ngIf="formError"
+    class="text-center py-20 max-w-lg mx-auto"
+>
 
-        <div class="text-5xl mb-6 text-red-500">
-            ⚠
-        </div>
-
-        <h2 class="text-3xl font-bold mb-4">
-            Something went wrong
-        </h2>
-
-        <p class="text-gray-600 mb-6">
-            {{ errorMessage }}
-        </p>
-
-        <button
-            pButton
-            label="Try again"
-            (click)="formError = false"
-        ></button>
-
+    <div class="text-5xl mb-6 text-red-500">
+        ⚠
     </div>
+
+    <h2 class="text-3xl font-bold mb-4">
+        Something went wrong
+    </h2>
+
+    <p class="text-gray-600 mb-6">
+        {{ errorMessage }}
+    </p>
+
+    <button
+        pButton
+        label="Try again"
+        (click)="formError = false"
+    ></button>
+
+</div>
