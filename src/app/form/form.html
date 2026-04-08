@@ -915,12 +915,12 @@
 </div>
 
 
-<div class="w-full max-w-[1100px]flex flex-col h-full">
-    <div class="flex-1 min-h-0 overflow-y-auto pr-0">
-        <div
-            *ngIf="formSent"
-            class="text-center max-w-lg mx-auto flex flex-col items-center"
-        >
+<div
+    *ngIf="formSent"
+    class="w-full max-w-[1100px]flex flex-col h-full"
+>
+    <div class="flex-1 min-h-0 pr-0" [class.overflow-y-auto]="animationDone">
+        <div class="text-center max-w-lg mx-auto flex flex-col items-center">
             <div class="flex-1 w-full">
                 <!-- 🎬 СЦЕНА -->
                 <div class="scene">
