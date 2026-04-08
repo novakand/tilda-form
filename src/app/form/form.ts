@@ -60,7 +60,6 @@ export class Form implements OnInit {
   today = new Date();
   public formError = false;
   public errorMessage = '';
-  public animationDone = false;
   @ViewChildren('panelWrapper') panelWrappers!: QueryList<ElementRef>;
   isMobile = window.innerWidth < 768;
 
@@ -76,28 +75,19 @@ export class Form implements OnInit {
   private runSuccessAnimation() {
     const tl = gsap.timeline();
 
-    // 🔥 сразу задаём стартовые состояния (без скачка layout)
-    gsap.set(".mount", { scale: 0.5, opacity: 0 });
-    gsap.set(".tv", { y: -250, scale: 0.85, opacity: 0 });
-    gsap.set(".brand-row", { opacity: 0, y: 30 });
-    gsap.set(".check", { scale: 0 });
-    gsap.set(".title", { opacity: 0, y: 20 });
-    gsap.set(".subtitle", { opacity: 0, y: 15 });
-    gsap.set(".info-item", { opacity: 0, y: 15 });
-
     // 1. mount
-    tl.to(".mount", {
-      scale: 1,
-      opacity: 1,
+    tl.from(".mount", {
+      scale: 0.5,
+      opacity: 0,
       duration: 0.4,
       ease: "back.out(2)"
     })
 
       // 2. tv падает
-      .to(".tv", {
-        y: 0,
-        scale: 1,
-        opacity: 1,
+      .from(".tv", {
+        y: -250,
+        scale: 0.85,
+        opacity: 0,
         duration: 0.7,
         ease: "power2.out"
       }, "-=0.2")
@@ -114,37 +104,37 @@ export class Form implements OnInit {
         repeat: 2
       })
 
-      // 5. бренд
-      .to(".brand-row", {
-        opacity: 1,
-        y: 0,
+      // 🔥 5. БРЕНД СРАЗУ ВСЁМ БЛОКОМ
+      .from(".brand-row", {
+        opacity: 0,
+        y: 30,
         duration: 0.5
       })
 
-      // 6. check
-      .to(".check", {
-        scale: 1,
+      // 6. галочка поверх
+      .from(".check", {
+        scale: 0,
         duration: 0.3,
         ease: "back.out(2)"
       }, "-=0.3")
 
-      // 7. текст
-      .to(".title", {
-        opacity: 1,
-        y: 0,
+      // 🔥 7. текст
+      .from(".title", {
+        opacity: 0,
+        y: 20,
         duration: 0.4
       })
 
-      .to(".subtitle", {
-        opacity: 1,
-        y: 0,
+      .from(".subtitle", {
+        opacity: 0,
+        y: 15,
         duration: 0.4
       }, "-=0.2")
 
-      // 8. список
-      .to(".info-item", {
-        opacity: 1,
-        y: 0,
+      // 🔥 8. список по очереди
+      .from(".info-item", {
+        opacity: 0,
+        y: 15,
         duration: 0.4,
         stagger: 0.15
       }, "-=0.2");
@@ -286,7 +276,6 @@ export class Form implements OnInit {
   public ngOnDestroy() {
     window.removeEventListener('message', this.messageListener);
     this.successCompleted = false;
-    this.animationDone = false;
   }
 
   public formSent = true;
@@ -309,15 +298,11 @@ export class Form implements OnInit {
     this.sending = false;
     this.formSent = true;
     this.formError = false;
-    this.animationDone = false;
+
     this.cdr.detectChanges();
 
     setTimeout(() => {
       this.runSuccessAnimation();
-      setTimeout(() => {
-        this.animationDone = true;
-        this.cdr.detectChanges();
-      }, 900);
     }, 0);
 
 
