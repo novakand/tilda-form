@@ -116,8 +116,7 @@
 
 /* 🔥 БРЕНД СТРОКА */
 .brand-row {
-    position: relative;
-    top: -20px;
+    margin-top: -20px;
 
     /* 🔥 подтягиваем к ТВ */
     display: flex;
@@ -159,8 +158,8 @@
 
 @media (max-width: 480px) {
     .brand-row {
-        position: relative;
-        top: -20px;
+        margin-top: -45px;
+        gap: 8px;
     }
 
     .logo {
@@ -187,4 +186,8 @@
 
 .info-item span:last-child {
     word-break: break-word;
+}
+
+.no-scroll {
+    overflow: hidden !important;
 }
