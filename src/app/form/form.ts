@@ -278,7 +278,7 @@ export class Form implements OnInit {
     this.successCompleted = false;
   }
 
-  public formSent = true;
+  public formSent = false;
 
   selectInstallation(option: string) {
 
