@@ -217,8 +217,6 @@ export class Form implements OnInit {
 
         this.showSuccessScreen();
 
-
-
         return;
 
       }
@@ -301,11 +299,11 @@ export class Form implements OnInit {
     this.formSent = true;
     this.formError = false;
 
-    this.cdr.detectChanges(); // 🔥 заставляем Angular дорисовать DOM
+    this.cdr.detectChanges(); 
 
     setTimeout(() => {
       this.runSuccessAnimation();
-    }, 0); // 🔥 маленькая задержка
+    }, 0); 
 
 
   }
