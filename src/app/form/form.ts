@@ -286,6 +286,7 @@ export class Form implements OnInit {
   public ngOnDestroy() {
     window.removeEventListener('message', this.messageListener);
     this.successCompleted = false;
+    this.animationDone = false;
   }
 
   public formSent = true;
