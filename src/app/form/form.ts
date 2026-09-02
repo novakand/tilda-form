@@ -325,11 +325,15 @@ export class Form implements OnInit {
     return this.tvArray.at(index) as FormGroup;
   }
 
+
+
   public tvSizes = [
     { label: '42” or Smaller', price: 69 },
     { label: '43”–59”', price: 109 },
-    { label: '60” or Larger (1 Tech + Your Help)', price: 139 },
-    { label: '60” or Larger (2 Techs)', price: 169 }
+    { label: '60”–85” (1 Tech + Your Help)', price: 139 },
+    { label: '60”–85” (2 Techs)', price: 169 },
+    { label: '100” (1 Tech + Your Help)', price: 199, is100: true },
+    { label: '100” (2 Techs)', price: 249, is100: true }
   ];
 
   public mountTypes = [
@@ -340,6 +344,26 @@ export class Form implements OnInit {
       label: 'Full-Motion Mount',
       description: 'TV can extend, swivel, and tilt for flexible viewing angles.',
       price: 89
+    }
+  ];
+
+
+  public mountTypes100 = [
+    { label: 'Already Got Mount', price: 0 },
+    {
+      label: 'Fixed Mount',
+      description: 'TV sits flat against the wall with no movement.',
+      price: 99
+    },
+    {
+      label: 'Tilt Mount',
+      description: 'TV tilts up or down to improve the viewing angle.',
+      price: 129
+    },
+    {
+      label: 'Full-Motion Mount',
+      description: 'TV can extend, swivel, and tilt for flexible viewing angles.',
+      price: 215
     }
   ];
 
@@ -450,6 +474,27 @@ export class Form implements OnInit {
 
   get contactForm(): FormGroup {
     return this.form.get('contact') as FormGroup;
+  }
+
+
+  public getMountTypes(tv: any) {
+    return tv.value.size?.is100
+      ? this.mountTypes100
+      : this.mountTypes;
+  }
+
+  public selectTvSize(tv: FormGroup, size: any): void {
+
+    const previousIs100 = !!tv.value.size?.is100;
+    const nextIs100 = !!size?.is100;
+
+    tv.patchValue({
+      size,
+      mount: previousIs100 !== nextIs100
+        ? null
+        : tv.value.mount
+    });
+
   }
 
   selectCategory(category: any) {

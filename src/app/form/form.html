@@ -259,7 +259,7 @@
 
                                                         <div
                                                             *ngFor="let size of tvSizes"
-                                                            (click)="tv.patchValue({ size })"
+                                                            (click)="selectTvSize(getTvForm(i), size)"
                                                             class="flex items-center gap-2 md:gap-3 p-3 md:p-3 rounded-lg cursor-pointer transition"
                                                             [ngClass]="tv.value.size === size
                                 ? 'bg-orange-100 border border-orange-400'
@@ -297,12 +297,12 @@
                                                     <div class="flex flex-col gap-3">
 
                                                         <div
-                                                            *ngFor="let mount of mountTypes"
+                                                            *ngFor="let mount of getMountTypes(getTvForm(i))"
                                                             (click)="tv.patchValue({ mount })"
                                                             class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition"
                                                             [ngClass]="tv.value.mount === mount
-                                ? 'bg-orange-100 border border-orange-400'
-                                : 'bg-gray-100 hover:bg-gray-200'"
+        ? 'bg-orange-100 border border-orange-400'
+        : 'bg-gray-100 hover:bg-gray-200'"
                                                         >
 
                                                             <p-radiobutton
